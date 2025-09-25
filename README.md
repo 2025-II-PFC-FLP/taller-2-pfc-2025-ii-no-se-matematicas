@@ -1,8 +1,8 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/lEw1Qm1j)
-# Asignación: [Nombre de la asignación]
+# Asignación: [Taller 2 Funciones de alto orden]
 
 **Fecha:** [DD/MM/AAAA]
-**Curso:** [Nombre del Curso]
+**Curso:** [FUNDAMENTOS DE PROGRAMACIÓN FUNCIONAL Y CONCURRENTE]
 
 ---
 
