@@ -8,11 +8,10 @@
 
 ## 👥 Integrantes del Grupo
 
-| Nombre Completo | Código | Rol            | Correo Electrónico        |
-| --------------- | ------ | -------------- | ------------------------- |
-| [Estudiante 1]  | 123456 | [Líder/Colab.] | [correo1@institucion.edu] |
-| [Estudiante 2]  | 123457 | [Colaborador]  | [correo2@institucion.edu] |
-| [Estudiante 3]  | 123458 | [Colaborador]  | [correo3@institucion.edu] |
+| Nombre Completo       | Código  | Rol            | Correo Electrónico       |
+|-----------------------|---------|----------------|--------------------------|
+| [Brayan Fidel Carmona Urquijo]        | 2459407  | [Líder/Colab.] | [brayan.urquijo@correounivalle.edu.co]|
+| [Karen Vanessa Gomez Corrales]        | 2459501  | [Líder/Colab.]  | [karen.vanessa.gomez@correounivalle.edu.co]|
 
 ---
 
