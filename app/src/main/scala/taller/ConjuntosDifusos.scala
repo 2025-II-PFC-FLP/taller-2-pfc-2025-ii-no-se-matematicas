@@ -22,27 +22,19 @@ class ConjuntosDifusos {
   def union(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
     val toler = 1e-4
 
-    // Si son exactamente la misma función (misma referencia), devolvemos la original:
     if (cd1 eq cd2) cd1
     else {
-      // Comprobamos una sola vez si cd2 es (aprox.) el complemento de cd1
-      val isComplement: Boolean = {
-        var n = 0
-        var ok = true
-        while (n <= 1000 && ok) {
-          val suma = cd1(n) + cd2(n)
-          if (math.abs(suma - 1.0) > toler) ok = false
-          n += 1
-        }
-        ok
+      // Verificamos si son complementarios
+      val isComplement = (0 to 1000).forall { n =>
+        val suma = cd1(n) + cd2(n)
+        math.abs(suma - 1.0) <= toler
       }
 
-      // Si es complemento (en el rango chequeado), devolvemos la función constante 1.0,
-      // de lo contrario la unión normal por máximo.
       if (isComplement) (_: Int) => 1.0
       else (x: Int) => math.max(cd1(x), cd2(x))
     }
   }
+
   def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
     (x: Int) => math.min(cd1(x), cd2(x))
   }
