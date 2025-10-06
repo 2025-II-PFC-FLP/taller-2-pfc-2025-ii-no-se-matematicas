@@ -164,4 +164,148 @@ class ConjuntosDifusosTest extends AnyFunSuite {
     assert(diferencia < epsilon)
   }
 
+  // Tests para interseccion
+  test("interseccion - resultado es menor o igual que cada conjunto") {
+    val g1 = obj.grande(1, 2)
+    val g2 = obj.grande(2, 3)
+    val i = obj.interseccion(g1, g2)
+    val valor = 40
+    assert(i(valor) <= g1(valor) && i(valor) <= g2(valor))
+  }
+
+
+  test("interseccion - toma el minimo de los grados") {
+    val g1 = obj.grande(1, 3)
+    val g2 = obj.grande(4, 2)
+    val i = obj.interseccion(g1, g2)
+    val minimo = if (g1(22) < g2(22)) g1(22) else g2(22)
+    val diferencia = if (i(22) > minimo) i(22) - minimo else minimo - i(22)
+    assert(diferencia < epsilon)
+  }
+
+
+  test("interseccion - es conmutativa") {
+    val g1 = obj.grande(3, 2)
+    val g2 = obj.grande(1, 4)
+    val i1 = obj.interseccion(g1, g2)
+    val i2 = obj.interseccion(g2, g1)
+    val diferencia = if (i1(45) > i2(45)) i1(45) - i2(45) else i2(45) - i1(45)
+    assert(diferencia < epsilon)
+  }
+
+
+  test("interseccion - con conjunto y su complemento tiende a 0") {
+    val g = obj.grande(2, 2)
+    val noG = obj.complemento(g)
+    val i = obj.interseccion(g, noG)
+    val valores = List(1, 15, 60, 120, 800)
+    valores.foreach { v =>
+      assert(i(v) < 0.5)
+    }
+  }
+
+
+  test("interseccion - es idempotente") {
+    val g = obj.grande(3, 3)
+    val i = obj.interseccion(g, g)
+    val diferencia = if (i(33) > g(33)) i(33) - g(33) else g(33) - i(33)
+    assert(diferencia < epsilon)
+  }
+
+
+  // Tests para inclusion
+  test("inclusion - todo conjunto esta incluido en si mismo") {
+    val g = obj.grande(1, 2)
+    assert(obj.inclusion(g, g))
+  }
+
+
+  test("inclusion - conjunto esta incluido en su union con otro") {
+    val g1 = obj.grande(1, 2)
+    val g2 = obj.grande(3, 3)
+    val u = obj.union(g1, g2)
+    assert(obj.inclusion(g1, u))
+    assert(obj.inclusion(g2, u))
+  }
+
+
+  test("inclusion - interseccion esta incluida en cada conjunto") {
+    val g1 = obj.grande(2, 2)
+    val g2 = obj.grande(1, 3)
+    val i = obj.interseccion(g1, g2)
+    assert(obj.inclusion(i, g1))
+    assert(obj.inclusion(i, g2))
+  }
+
+
+  test("inclusion - conjunto no esta incluido en su complemento") {
+    val g = obj.grande(1, 2)
+    val noG = obj.complemento(g)
+    assert(!obj.inclusion(g, noG))
+  }
+
+
+  test("inclusion - detecta correctamente no inclusion") {
+    val g1 = obj.grande(1, 2)
+    val g2 = obj.grande(5, 2)
+    assert(!obj.inclusion(g1, g2))
+  }
+
+
+  test("inclusion - conjunto con grados menores esta incluido") {
+    val g1 = obj.grande(10, 2)
+    val g2 = obj.grande(1, 2)
+    assert(obj.inclusion(g1, g2))
+  }
+
+
+  // Tests para igualdad
+  test("igualdad - todo conjunto es igual a si mismo") {
+    val g = obj.grande(2, 3)
+    assert(obj.igualdad(g, g))
+  }
+
+
+  test("igualdad - doble complemento es igual al original") {
+    val g = obj.grande(1, 2)
+    val noG = obj.complemento(g)
+    val noNoG = obj.complemento(noG)
+    assert(obj.igualdad(g, noNoG))
+  }
+
+
+  test("igualdad - conjuntos diferentes no son iguales") {
+    val g1 = obj.grande(1, 2)
+    val g2 = obj.grande(5, 3)
+    assert(!obj.igualdad(g1, g2))
+  }
+
+
+  test("igualdad - es simetrica") {
+    val g1 = obj.grande(2, 2)
+    val g2 = obj.grande(2, 2)
+    assert(obj.igualdad(g1, g2) == obj.igualdad(g2, g1))
+  }
+
+
+  test("igualdad - union e interseccion con mismo conjunto son iguales al original") {
+    val g = obj.grande(3, 2)
+    val u = obj.union(g, g)
+    val i = obj.interseccion(g, g)
+    assert(obj.igualdad(g, u))
+    assert(obj.igualdad(g, i))
+  }
+
+
+  test("igualdad - leyes de De Morgan primera ley") {
+    val g1 = obj.grande(1, 2)
+    val g2 = obj.grande(3, 2)
+    val u = obj.union(g1, g2)
+    val compU = obj.complemento(u)
+    val compG1 = obj.complemento(g1)
+    val compG2 = obj.complemento(g2)
+    val interComp = obj.interseccion(compG1, compG2)
+    assert(obj.igualdad(compU, interComp))
+  }
+
 }

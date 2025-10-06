@@ -43,5 +43,32 @@ class ConjuntosDifusos {
       else (x: Int) => math.max(cd1(x), cd2(x))
     }
   }
-  //falta igualdad inclusion interseccion
+  def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
+    (x: Int) => math.min(cd1(x), cd2(x))
+  }
+
+
+  def inclusion(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
+    @annotation.tailrec
+    def verificar(n: Int): Boolean = {
+      if (n > 1000) true
+      else if (cd1(n) > cd2(n)) false
+      else verificar(n + 1)
+    }
+    verificar(0)
+  }
+
+
+  def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
+    val tolerancia = 1e-4  // más permisivo
+
+
+    @annotation.tailrec
+    def verificar(n: Int): Boolean = {
+      if (n > 1000) true
+      else if (math.abs(cd1(n) - cd2(n)) > tolerancia) false
+      else verificar(n + 1)
+    }
+    verificar(0)
+  }
 }
